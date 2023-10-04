@@ -1,0 +1,161 @@
+Buổi thực hành các giải thuật tìm kiếm
+Nội dung của buổi thực hành là tìm hiểu cách cài đặt các giải thuật tìm kiếm trong AI. Các giải thuật tìm kiếm bao gồm: Tìm kiếm tốt nhất, tìm kiếm leo đồi, tìm kiếm Astar, tìm kiếm theo chiều sâu, theo chiều rộng.
+Dữ liệu thực hành Z:\AI Basic Algorithms; chương trình soạn thảo và biên dịch: DevC được lưu ở thư mục 
+Các bước thực hành:
+1. Khởi động với hệ điều hành chuyên ngành
+2. Sinh viên viết báo cáo bằng MS Word cho từng giải thuật tìm kiếm ở thư mục Z:\AI Basic Algorithms với yêu cầu sau đây:
+	Dữ liệu đầu vào của chương trình là ở dạng ma trận kề hay cập đỉnh kề?
+	Dữ liệu đầu vào được tổ chức trong chương trình như thế nào (danh sách, ma trận, bản ghi (record), …)?
+	Các giải thuật tìm kiếm được cài đặt như thế nào?
+3. Cấu trúc báo cáo
+Tìm kiếm tốt nhất 
+-	Dữ liệu đầu vào: dữ liệu đầu vào của chương trình là ở dạng cặp đỉnh kề.
+-	Tổ chức dữ liệu: 
++ Open: tập các trạng thái đã được sinh ra nhưng chưa xét đến.
++ Close: tập các trạng thái đã được xét đến.
+-	Cài đặt giải thuật:
+o	Cài đặt cách lấy phần tử trong open như thế nào?
+Phần tử trong tập open được lấy ra để tiếp tục xử lý dựa trên một quy tắc xác định thứ tự ưu tiên. 
+o	Kiểm tra xem có đỉnh cần tìm như thế nào?
+Sử dụng danh sách để kiểm tra đỉnh cần tìm:
++ Tạo một danh sách trống để lưu trữ các đỉnh đã duyệt qua.
++ Khi một đỉnh được duyệt qua, ta thêm đỉnh đó vào danh sách.
++ Để kiểm tra một đỉnh cần tìm đã được tìm thấy hay chưa, ta duyệt từng danh sách và so sánh các phần tử cần tìm.
+o	Phát sinh các con:
+	Không nằm trong open, close:
++ Khi phát sinh một con mới, ta kiểm tra xem con đó đã có trong tập open và tập close hay chưa. 
++ Nếu con không nằm trong tập open và tập close, ta thêm con đó vào tập open để xem xét và mở rộng tiếp.
+	Nằm trong open:
++ Khi phát sinh một con mới, ta kiểm tra xem con đó đã có trong tập open hay chưa.
++ Nếu con đã có trong tập open, ta so sánh giá trị ưu tiên của con mới với con đang có trong tập open.
++ Nếu con mới có giá trị ưu tiên tốt hơn, ta cập nhật con đang có trong tập open với giá trị ưu tiên mới và cập nhật thông tin liên quan.
+	Nằm trong close:
++ Khi phát sinh một con mới, ta kiểm tra xem con đó đã có trong tập close hay chưa.
++ Nếu con đã có trong tập close, ta có thể bỏ qua con đó hoặc tiếp tục kiểm tra các con khác tùy thuộc vào yêu cầu của bài toán.
++ Thông thường, khi một con đã nằm trong tập close, ta không cần xem xét lại nó vì nó đã được duyệt qua và xử lý rồi.
+	Đưa vào open:
++ Khi phát sinh một con mới và con đó không nằm trong tập open, tập close, ta đưa con đó vào tập open để xem xét và mở rộng tiếp.
++ Cùng với con mới, ta cập nhật thông tin liên quan như giá trị ưu tiên, đường đi, cha của con
+
+Tìm kiếm leo đồi 
+-	Dữ liệu đầu vào: dữ liệu đầu vào của chương trình là ở dạng ma trận kề
+-	Tổ chức dữ liệu:
++ Open:
++ Close:
++ Cost:
+-	Cài đặt giải thuật:
+o	Cài đặt cách lấy phần tử trong open như thế nào?
+Việc lấy phần tử trong tập open được thực hiện bằng cách chọn nút đầu tiên trong danh sách open làm nút hiện tại và không thayđổi thứ tự của tập open.
+o	Kiểm tra xem có đỉnh cần tìm như thế nào?
+Kiểm tra xem có đỉnh cần tìm được thực hiện bằng cách so sánh trạng thái của nút hiện tại hoặc giá trị đánh giá của nút hiện tại với trạng thái mục tiêu hoặc giá trị đánh giá của mục tiêu mong đợi.
+o	Phát sinh các con:
+	Không nằm trong open, close:
++ Nếu một con không nằm trong tập open và tập close, nghĩa là nó chưa được khám phá trước đó và không có trong danh sách các nút đang chờ duyệt hoặc đã duyệt.
++ Trong trường hợp này, ta tạo một nút mới đại diện cho con đó và thêm nó vào tập open để duyệt trong tương lai.
+	Nằm trong open:
++ Nếu một con nằm trong tập open, nghĩa là nó đã được thêm vào tập open trước đó nhưng chưa được duyệt.
++ Trong trường hợp này, ta có thể kiểm tra xem con có giá trị đánh giá tốt hơn nút hiện tại hay không. Nếu có, ta có thể thay thế nút hiện tại bằng con để tìm kiếm tiếp theo.
+	Nằm trong close:
++ Nếu một con nằm trong tập close, nghĩa là nó đã được duyệt và không cần xem xét lại.
++ Trong trường hợp này, ta không cần làm gì với con này và tiếp tục xem xét các con khác.
+	Đưa vào open:
++ Khi tạo ra một con mới hoặc khi thay thế nút hiện tại bằng một con, ta đưa con đó vào tập open để duyệt tiếp theo.
++ Cách đưa con vào tập open phụ thuộc vào cách tổ chức tập open. Có thể sử dụng một hàng đợi ưu tiên để xác định thứ tự ưu tiên dựa trên giá trị đánh giá của các con. Con có giá trị đánh giá tốt nhất sẽ được đưa vào tập open ở vị trí phù hợp trong hàng đợi.
+
+Tìm kiếm Astar 
+-	Dữ liệu đầu vào: dữ liệu đầu vào của chương trình là ở dạng ma trận kề
+-	Tổ chức dữ liệu:
++ Open: tập các trạng thái đã được sinh ra nhưng chưa xét đến.
++ Close: tập các trạng thái đã được xét đến.
++ Cost(p,q): là khoảng cách giữa p và q.
++ g(p): khoảng cách cách từ trạng thái hiện đại.
++ h(p): giá trị được lượng giá từ trạng thái hiện tại đến trạng thái đích.
+-	Cài đặt giải thuật:
+o	Cài đặt cách lấy phần tử trong open như thế nào?
+Để lấy phần tử trong tập open trong thuật toán A*, sử dụng một hàng đợi ưu tiên để lưu trữ các nút và sắp xếp chúng theo thứ tự ưu tiên dựa trên giá trị đánh giá. Hàng đợi ưu tiên đảm bảo rằng nút với giá trị đánh giá tốt nhất sẽ được lấy ra trước.
+o	Kiểm tra xem có đỉnh cần tìm như thế nào?
+Kiểm tra xem có đỉnh cần tìm được thực hiện bằng cách so sánh trạng thái của nút hiện tại hoặc giá trị đánh giá của nút hiện tại với trạng thái mục tiêu hoặc giá trị đánh giá của mục tiêu mong đợi.
+o	Phát sinh các con:
+	Không nằm trong open, close:
+Nếu một con không nằm trong tập open (chưa được duyệt) hoặc tập close (đã được duyệt), nghĩa là nó chưa được khám phá trước đó và không có trong danh sách các nút đang chờ duyệt hoặc đã duyệt.
+Trong trường hợp này, ta tạo một nút mới đại diện cho con đó và tính toán cost và giá trị đánh giá của nó. Sau đó, ta thêm con vào tập open để duyệt trong tương lai.
+	Nằm trong open:
+Nếu một con nằm trong tập open, nghĩa là nó đã được thêm vào tập open trước đó nhưng chưa được duyệt.
+Trong trường hợp này, ta có thể kiểm tra xem con có giá trị đánh giá tốt hơn nút hiện tại hay không. Nếu con có giá trị đánh giá tốt hơn, ta cập nhật cost và giá trị đánh giá của con trong tập open.
+	Nằm trong close:
+Nếu một con nằm trong tập close, nghĩa là nó đã được duyệt và không cần xem xét lại.
+Trong trường hợp này, ta không cần làm gì với con này và tiếp tục xem xét các con khác.
+	Đưa vào open:
+Khi tạo ra một con mới hoặc khi cập nhật nút hiện tại bằng một con, ta đưa con vào tập open để duyệt tiếp theo.
+Cách đưa con vào tập open thường dựa trên việc sắp xếp các nút trong tập open theo thứ tự ưu tiên. Thông thường, sử dụng một hàng đợi ưu tiên (priority queue) để xác định thứ tự ưu tiên dựa trên giá trị đánh giá của các con. Con có giá trị đánh giá tốt nhất sẽ được đưa vào tập open ở vị trí phù hợp trong hàng đợi.
+Tìm kiếm theo chiều sâu 
+-	Dữ liệu đầu vào: dữ liệu đầu vào của chương trình là ở dạng ma trận kề
+-	Tổ chức dữ liệu:
++ Biến maxN: Kích thước mảng.
++ Mảng d[]: Mảng lưu lại khoảng cách từ đỉnh nguồn đến mọi đỉnh.
++ Mảng par[]: Mảng lưu lại vết đường đi.
++ Mảng visit[]: Mảng đánh dấu các đỉnh đã thăm.
++ Vecto g[]: Danh sách cạnh kề mỗi đỉnh
+-	Cài đặt giải thuật:
+o	Cài đặt cách lấy phần tử trong open như thế nào?
+Sử dụng một ngăn xếp (stack) và thực hiện các thao tác thêm phần tử vào đầu ngăn xếp và lấy phần tử ra khỏi đầu ngăn xếp để thực hiện việc duyệt qua các nút.
+o	Kiểm tra xem có đỉnh cần tìm như thế nào?
+Kiểm tra đỉnh cần tìm thường được thực hiện khi duyệt qua mỗi nút trong ngăn xếp. Điều này đảm bảo rằng khi một nút được lấy ra từ ngăn xếp, ta có thể kiểm tra xem nút đó có phải là đỉnh cần tìm hay không. Nếu không có đỉnh phù hợp, thuật toán sẽ tiếp tục duyệt qua các nút khác.
+o	Phát sinh các con:
+	Không nằm trong open, close:
++ Tạo ra con mới từ trạng thái hiện tại bằng cách áp dụng một hành động hợp lệ.
+Kiểm tra xem con có là trạng thái mục tiêu hay không.
++ Nếu con là trạng thái mục tiêu, thuật toán kết thúc và trả về con.
++ Nếu con không phải là trạng thái mục tiêu, đánh dấu con là đã được duyệt và đưa con vào tập open để xem xét sau.
+	Nằm trong open:
++ Không cần phát sinh lại con, vì chúng đã được phát sinh và đưa vào tập open trước đó.
++ Kiểm tra xem con có là trạng thái mục tiêu hay không.
++ Nếu con là trạng thái mục tiêu, thuật toán kết thúc và trả về con.
++ Nếu con không phải là trạng thái mục tiêu, tiếp tục duyệt các con của nút hiện tại.
+	Nằm trong close:
++ Không cần phát sinh lại con, vì chúng đã được phát sinh và đưa vào tập close trước đó.
++ Kiểm tra xem con có là trạng thái mục tiêu hay không.
++ Nếu con là trạng thái mục tiêu, thuật toán kết thúc và trả về con.
++Nếu con không phải là trạng thái mục tiêu, tiếp tục duyệt các con của nút hiện tại.
+	Đưa vào open:
++ Kiểm tra xem con đã có trong tập open hay chưa.
++ Nếu con đã có trong tập open, không cần thực hiện gì thêm.
++ Nếu con chưa có trong tập open, đánh dấu con là đã được duyệt và đưa con vào tập open để xem xét sau.
+Tìm kiếm theo chiều rộng
+-	Dữ liệu đầu vào: dữ liệu đầu vào của chương trình là ở dạng ma trận kề
+-	Tổ chức dữ liệu:
++ Biến maxN: Kích thước mảng.
++ Mảng d[]: Mảng lưu lại khoảng cách từ đỉnh nguồn đến mọi đỉnh.
++ Mảng par[]: Mảng lưu lại vết đường đi.
++ Mảng visit[]: Mảng đánh dấu các đỉnh đã thăm.
++ Vecto g[]: Danh sách cạnh kề mỗi đỉnh.
++ Hàng đợi(q): Chứa các đỉnh sẽ được duyệt theo thứ tự tiên chiều rộng.
+-	Cài đặt giải thuật:
+o	Cài đặt cách lấy phần tử trong open như thế nào?
+Lấy phần tử trong tập open được thực hiện bằng cách sử dụng hàng đợi. Phần tử đầu tiên được đưa vào hàng đợi sẽ là phần tử đầu tiên được lấy ra.
+o	Kiểm tra xem có đỉnh cần tìm như thế nào?
+Thuật toán BFS bắt đầu từ đỉnh gốc và lần lượt nhìn các đỉnh kề với đỉnh gốc. Sau đó, với mỗi đỉnh trong số đó, thuật toán lại lần lượt nhìn trước các đỉnh kề với nó mà chưa được quan sát trước đó và lặp lại.
+o	Phát sinh các con:
+	Không nằm trong open, close:
++ Tạo ra con mới từ trạng thái hiện tại bằng cách áp dụng một hành động hợp lệ.
++ Kiểm tra xem con có là trạng thái mục tiêu hay không.
++ Nếu con là trạng thái mục tiêu, thuật toán kết thúc và trả về con.
++ Nếu con không phải là trạng thái mục tiêu, đánh dấu con là đã được duyệt và đưa con vào tập open để xem xét sau.
+	Nằm trong open:
++ Không cần phát sinh lại con, vì chúng đã được phát sinh và đưa vào tập open trước đó.
++ Kiểm tra xem con có là trạng thái mục tiêu hay không.
++ Nếu con là trạng thái mục tiêu, thuật toán kết thúc và trả về con.
++ Nếu con không phải là trạng thái mục tiêu, tiếp tục duyệt các con của nút hiện tại.
+	Nằm trong close:
++ Không cần phát sinh lại con, vì chúng đã được phát sinh và đưa vào tập close trước đó.
++ Kiểm tra xem con có là trạng thái mục tiêu hay không.
++ Nếu con là trạng thái mục tiêu, thuật toán kết thúc và trả về con.
++ Nếu con không phải là trạng thái mục tiêu, tiếp tục duyệt các con của nút hiện tại.
+	Đưa vào open:
++ Kiểm tra xem con đã có trong tập open hay chưa.
++ Nếu con đã có trong tập open, không cần thực hiện gì thêm.
++ Nếu con chưa có trong tập open, kiểm tra xem con có cũng không nằm trong tập close.
++ Nếu con không nằm trong tập close, đánh dấu con là đã được duyệt và đưa con vào tập open để xem xét sau.
+
+
+
